@@ -2,11 +2,15 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
+group 'io.github.lantice3720.Main'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
 
 dependencies {
@@ -17,4 +21,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'io.github.lantice3720.Main'
+        )
+    }
 }
