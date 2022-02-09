@@ -1,0 +1,1 @@
+java -jar trpg-1.0-SNAPSHOT.jar

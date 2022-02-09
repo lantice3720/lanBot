@@ -29,9 +29,17 @@ public class Main {
 
         bot.addEventListener(new ChatEvent());
 
+
         Scanner scanner = new Scanner(System.in);
         String inputString = scanner.nextLine();
-        if(inputString.equals("stop")) bot.shutdown();
+        while (true){
+            if(inputString.equals("stop")) {
+                bot.shutdown();
+                System.exit(1);
+                break;
+            }
+            inputString = scanner.nextLine();
+        }
 //        bot.upsertCommand("dice", "Roll a dice! Usage: /dice <eyes> [<count>]").queue();
     }
 }

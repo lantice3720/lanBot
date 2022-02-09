@@ -1,5 +1,6 @@
 package io.github.lantice3720.listener;
 
+import io.github.lantice3720.Fx;
 import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,18 +13,38 @@ public class ChatEvent extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e){
-        if(e.getAuthor().isBot()) return;
-        if(e.getMessage().getContentDisplay().startsWith("!")){
-            String[] command = e.getMessage().getContentRaw().split(" ");
-            System.out.println("Received command: "+e.getMessage().getContentRaw()+", "+command.length);
-            if(command.length <= 1) {
-                return;
-            }else if(command.length == 2){
-                Random random = new Random();
-                e.getMessage().reply(String.valueOf(random.nextInt(6)+1));
-                e.getChannel().sendMessage("asd");
-                System.out.println("asdd");
+        if(e.getAuthor().isBot()) return; // 봇일 경우 실행 안함
+        if(e.getMessage().getContentDisplay().startsWith("!")){ // 느낌표 명령어인지 확인
+            String[] command = e.getMessage().getContentRaw().split(" "); // 띄어쓰기 기준으로 분할
+            System.out.println("Received command: "+e.getMessage().getContentRaw()+", "+command.length); // 콘솔에 로그
+            Random random = new Random(); // 주사위 굴리기 위한 객체 생성
+            StringBuilder replyMessage = new StringBuilder();
+
+            if(command.length <= 1) { // !dice 만 입력
+                replyMessage.append("d6을 굴립니다.\r\n결과는 **")
+                        .append(random.nextInt(6) + 1)
+                        .append("**!");
+            }else if(command.length == 2 && Fx.isNumeric(command[1])){ // !dice <eye> 입력
+                replyMessage.append("d")
+                        .append(command[1])
+                        .append("을 굴립니다.\r\n결과는 **")
+                        .append(random.nextInt(Integer.parseInt(command[1])) + 1)
+                        .append("**!");
+            }else if(command.length == 3 && Fx.isNumeric(command[1]) && Fx.isNumeric(command[2])){ // !dice <eye> <roll> 입력
+                replyMessage.append(command[2])
+                        .append("d").append(command[1])
+                        .append("을 굴립니다.\r\n결과는 **");
+                for(int i = 0; i < Integer.parseInt(command[2]); i++){ // roll 횟수만큼 결과 출력
+                    replyMessage.append(random.nextInt(Integer.parseInt(command[1]))+1)
+                            .append(" ");
+                }
+                replyMessage.deleteCharAt(replyMessage.length()-1);
+                replyMessage.append("**!");
+            }else{ // 예외처리
+                replyMessage.append("에러 발생: Command length invalid or parameters not numeric."); // 에러 발생
             }
+
+            e.getMessage().reply(replyMessage.toString()).mentionRepliedUser(false).queue(); // 답장 송신
         }
     }
 
