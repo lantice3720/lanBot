@@ -14,18 +14,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String args[]) throws IOException, LoginException {
-        BufferedReader tokenFileReader = new BufferedReader(new FileReader("D:\\Documents\\programming\\discord\\trpg\\src\\main\\resources\\token.txt"));
+        BufferedReader tokenFileReader = new BufferedReader(new FileReader("token.txt"));
         JDABuilder botBuilder = JDABuilder.createDefault(tokenFileReader.readLine());
 
         botBuilder.disableCache(CacheFlag.ACTIVITY);
         botBuilder.disableIntents(GatewayIntent.GUILD_MESSAGE_TYPING, GatewayIntent.DIRECT_MESSAGE_TYPING);
-        botBuilder.setActivity(Activity.playing("Something fun"));
+        botBuilder.setActivity(Activity.playing("OHHH YEAAA"));
 
         JDA bot = botBuilder.build();
 
         bot.getPresence().setStatus(OnlineStatus.ONLINE);
 
-        System.out.println("hi");
+        System.out.println("작동중인 경로: "+System.getProperty("user.dir"));
 
         bot.addEventListener(new ChatEvent());
 
