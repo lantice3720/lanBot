@@ -54,6 +54,8 @@ public class ChatEvent extends ListenerAdapter {
                     builder.setTitle("Bot Info");
                     builder.setDescription("yes, bot info.");
 
+                    builder.setThumbnail("https://raw.githubusercontent.com/lantice3720/lanBot/master/src/main/resources/La57-inverted.png");
+
                     builder.addField("Field", "hehe", false);
                     builder.addField("Field2", "hehe2", true);
                     builder.addBlankField(false);
