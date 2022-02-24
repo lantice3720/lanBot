@@ -20,20 +20,12 @@ public class ChatEvent extends ListenerAdapter {
             String[] command = e.getMessage().getContentRaw().split(" "); // 띄어쓰기 기준으로 분할
             System.out.println("Received command: "+e.getMessage().getContentRaw()+", "+command.length); // 콘솔에 로그
 
-            switch (command[0]){
-                case "!주사위":
-                case "!dice":
-                    e.getMessage().reply(Dice.dice(command)).mentionRepliedUser(false).queue(); // 답장 송신
-                case "!도움말":
-                case "!help":
-                    e.getChannel().sendMessageEmbeds(Help.help(command, false).build()).queue();
-                    break;
-                case "!명령어":
-                case "!commands":
-                    e.getChannel().sendMessageEmbeds(Help.help(command, true).build()).queue();
-                    break;
-                default:
-                    break;
+            switch (command[0]) {
+                case "!주사위", "!dice" -> e.getMessage().reply(Dice.dice(command)).mentionRepliedUser(false).queue(); // 답장 송신
+                case "!도움말", "!help" -> e.getChannel().sendMessageEmbeds(Help.help(command, false).build()).queue();
+                case "!명령어", "!command" -> e.getChannel().sendMessageEmbeds(Help.help(command, true).build()).queue();
+                default -> {
+                }
             }
         }
     }
